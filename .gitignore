@@ -1,0 +1,6 @@
+# Dependency directories
+dist/
+node_modules/
+*.log
+.env
+coverage/
