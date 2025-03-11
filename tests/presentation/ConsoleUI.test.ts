@@ -24,6 +24,8 @@ describe("index", () => {
       mockCommandExecuter as unknown as CommandExecuter
     );
     consoleUI.start();
-    expect(mockConsoleIO.display).toHaveBeenCalledWith("App started!");
+    expect(mockConsoleIO.display).toHaveBeenCalledWith(
+      expect.stringContaining("Welcome to AwesomeGIC Bank!")
+    );
   });
 });
