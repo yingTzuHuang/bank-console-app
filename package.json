@@ -6,7 +6,8 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "build-and-start": "npm run build && npm run start",
-    "test": "jest tests --coverage"
+    "test": "jest tests --coverage",
+    "test:watch": "jest tests --watch"
   },
   "keywords": [],
   "author": "",

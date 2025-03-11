@@ -9,8 +9,12 @@ export class ConsoleIO {
     this.rl.write(`${message}\n`);
   }
 
+  error(message: string) {
+    console.error(`ERROR: ${message}\n`);
+  }
+
   promptInput(handleInput: (input: string) => void) {
-    this.rl.question(">", (input) => handleInput(input));
+    this.rl.question("> ", (input) => handleInput(input));
   }
 
   close() {

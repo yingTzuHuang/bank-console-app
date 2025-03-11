@@ -9,9 +9,16 @@ const mockReadline = {
 
 describe("ConsoleIO", () => {
   let consoleIO: ConsoleIO;
+  let consoleErrorSpy: jest.SpyInstance;
+
   beforeEach(() => {
     jest.clearAllMocks();
     consoleIO = new ConsoleIO(mockReadline as unknown as readline.Interface);
+    consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    consoleErrorSpy?.mockRestore();
   });
 
   it("should display message", () => {
@@ -24,7 +31,7 @@ describe("ConsoleIO", () => {
     const mockCallback = jest.fn();
     consoleIO.promptInput(mockCallback);
     expect(mockReadline.question).toHaveBeenCalledWith(
-      ">",
+      "> ",
       expect.any(Function)
     );
   });
@@ -32,5 +39,13 @@ describe("ConsoleIO", () => {
   it("should close readline", () => {
     consoleIO.close();
     expect(mockReadline.close).toHaveBeenCalled();
+  });
+
+  it("should show error message with ERROR: as prefix message to indicate error", () => {
+    const mockErrorMesssage = "Error message";
+    consoleIO.error(mockErrorMesssage);
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      `ERROR: ${mockErrorMesssage}\n`
+    );
   });
 });
