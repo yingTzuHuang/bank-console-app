@@ -6,11 +6,11 @@ export class ConsoleIO {
   constructor(private rl: readline.Interface) {}
 
   display(message: string) {
-    this.rl.write(`${message}`);
+    this.rl.write(`${message}\n`);
   }
 
   promptInput(handleInput: (input: string) => void) {
-    this.rl.question(">", handleInput);
+    this.rl.question(">", (input) => handleInput(input));
   }
 
   close() {
