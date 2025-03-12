@@ -7,9 +7,9 @@ import { TransactionRepository } from "./infrastructure/TransactionRepository";
 import { InterestRuleRepository } from "./infrastructure/InterestRuleRepository";
 import { AccountRepository } from "./infrastructure/AccountRespository";
 import { Command } from "./application/commands/Command";
-import { InputTransactionCommand } from "./application/commands/InputTransactionCommand";
-import { DefineInterestRuleCommand } from "./application/commands/DefineInterestRuleCommand";
-import { PrintStatementCommand } from "./application/commands/PrintStatementCommand";
+import InputTransactionCommand from "./application/commands/InputTransactionCommand";
+import DefineInterestRuleCommand from "./application/commands/DefineInterestRuleCommand";
+import PrintStatementCommand from "./application/commands/PrintStatementCommand";
 
 const startApp = () => {
   // Dependency Injections
@@ -46,18 +46,18 @@ const registerCommands = (
     [
       "T",
       new InputTransactionCommand(
+        consoleIO,
         transactionRepository,
-        accountRepository,
-        consoleIO
+        accountRepository
       ),
     ],
-    ["I", new DefineInterestRuleCommand(interestRuleRepository, consoleIO)],
+    ["I", new DefineInterestRuleCommand(consoleIO, interestRuleRepository)],
     [
       "P",
       new PrintStatementCommand(
+        consoleIO,
         transactionRepository,
-        interestRuleRepository,
-        consoleIO
+        interestRuleRepository
       ),
     ],
   ]);

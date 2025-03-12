@@ -11,7 +11,9 @@ export class CommandExecuter {
     if (commandObj) {
       commandObj.execute();
     } else {
-      throw new InvalidInputError("Please provide a valid option");
+      throw new InvalidInputError(
+        "Invalid input. Please input a valid option."
+      );
     }
   }
 }

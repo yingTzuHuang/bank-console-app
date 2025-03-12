@@ -1,13 +1,35 @@
+import { InsufficientBalanceError } from "../errors/InsufficientBalanceError";
+import { InterestRule } from "./InterestRule";
+import { Transaction } from "./Transaction";
+
 export class Account {
-  constructor(private id: string, private balance: number) {}
-  getBalance() {
-    return this.balance;
+  private _transactions: Transaction[];
+  constructor(private _id: string, private _balance: number) {
+    this._transactions = [];
   }
 
-  deposit(amount: number) {
-    this.balance += amount;
+  withdraw(date: Date, amount: number) {
+    if (!this.canWithdraw(amount)) {
+      throw new InsufficientBalanceError("Insufficient Balance!");
+    }
+    this._balance -= amount;
+    this._transactions.push(new Transaction(date, "W", amount));
   }
-  withdraw(amount: number) {
-    this.balance -= amount;
+
+  deposit(date: Date, amount: number) {
+    this._balance += amount;
+    this._transactions.push(new Transaction(date, "D", amount));
+  }
+
+  canWithdraw(amount: number) {
+    return this._balance >= amount;
+  }
+
+  get id() {
+    return this._id;
+  }
+
+  get transactions() {
+    return this._transactions;
   }
 }

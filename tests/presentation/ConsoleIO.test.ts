@@ -12,7 +12,6 @@ describe("ConsoleIO", () => {
   let consoleErrorSpy: jest.SpyInstance;
 
   beforeEach(() => {
-    jest.clearAllMocks();
     consoleIO = new ConsoleIO(mockReadline as unknown as readline.Interface);
     consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => {});
   });

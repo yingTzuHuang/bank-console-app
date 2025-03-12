@@ -21,11 +21,11 @@ export class ConsoleUI {
 
     try {
       this.commandExecutor.execute(trimmedInput);
-      this.showMenu("Is there anything else you'd like to do?");
+      //   this.showMenu("Is there anything else you'd like to do?");
     } catch (err) {
       const error = err as Error;
       this.consoleIO.error(error?.message || "Invalid input!");
-      this.showMenu("What would you like to do?");
+      //   this.showMenu("What would you like to do?");
     }
   }
 

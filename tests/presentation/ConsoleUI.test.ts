@@ -16,7 +16,6 @@ const mockCommandExecuter = {
 describe("ConsoleUI", () => {
   let consoleUI: ConsoleUI;
   beforeEach(() => {
-    jest.clearAllMocks();
     consoleUI = new ConsoleUI(
       mockConsoleIO as unknown as ConsoleIO,
       mockCommandExecuter as unknown as CommandExecuter
