@@ -1,6 +1,6 @@
 import InputTransactionCommand from "../../src/application/commands/InputTransactionCommand";
 import { Account } from "../../src/domain/Account";
-import { AccountRepository } from "../../src/infrastructure/AccountRespository";
+import { AccountRepository } from "../../src/infrastructure/AccountRepository";
 import { TransactionRepository } from "../../src/infrastructure/TransactionRepository";
 import { ConsoleIO } from "../../src/presentation/ConsoleIO";
 

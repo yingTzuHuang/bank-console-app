@@ -1,6 +1,6 @@
 import { Account } from "../../domain/Account";
 import { InvalidInputError } from "../../errors/InvalidInputError";
-import { AccountRepository } from "../../infrastructure/AccountRespository";
+import { AccountRepository } from "../../infrastructure/AccountRepository";
 import { TransactionRepository } from "../../infrastructure/TransactionRepository";
 import { ConsoleIO } from "../../presentation/ConsoleIO";
 import {
@@ -11,8 +11,8 @@ import {
 import { Command } from "./Command";
 
 export default class InputTransactionCommand extends Command {
-  protected readonly promptMessage: string = `Please enter transaction details in <Date> <Account> <Type> <Amount> format 
-  (or enter blank to go back to main menu):`;
+  protected readonly promptMessage: string = `Please enter transaction details in <Date> <Account> <Type> <Amount> format
+(or enter blank to go back to main menu):`;
   constructor(
     consoleIO: ConsoleIO,
     private transactionRepository: TransactionRepository,
@@ -94,6 +94,7 @@ export default class InputTransactionCommand extends Command {
   }
 
   showAccountTransactions(account: Account) {
+    this.consoleIO.display(`-----------------------------------`);
     this.consoleIO.display(`Account: ${account.id}`);
     this.consoleIO.display("| Date | Txn Id | Type | Amount |");
     for (const t of account.transactions) {
@@ -103,5 +104,6 @@ export default class InputTransactionCommand extends Command {
         `| ${formattedDate} | ${t.id} | ${t.type} | ${formattedAmount} |`
       );
     }
+    this.consoleIO.display(`-----------------------------------`);
   }
 }
