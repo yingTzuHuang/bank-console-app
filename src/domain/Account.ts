@@ -13,14 +13,14 @@ export class Account {
       throw new InsufficientBalanceError("Insufficient Balance!");
     }
     this._balance -= amount;
-    const newTransaction = new Transaction(date, "W", amount);
+    const newTransaction = new Transaction(this, date, "W", amount);
     this._transactions.push(newTransaction);
     return newTransaction;
   }
 
   deposit(date: Date, amount: number): Transaction {
     this._balance += amount;
-    const newTransaction = new Transaction(date, "D", amount);
+    const newTransaction = new Transaction(this, date, "D", amount);
     this._transactions.push(newTransaction);
     return newTransaction;
   }

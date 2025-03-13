@@ -1,6 +1,9 @@
+import { Account } from "./Account";
+
 export class Transaction {
   private _id: string;
   constructor(
+    private _account: Account,
     private _date: Date,
     private _type: "D" | "W" | "I",
     private _amount: number
@@ -27,5 +30,9 @@ export class Transaction {
 
   get date() {
     return this._date;
+  }
+
+  get account() {
+    return this._account;
   }
 }
