@@ -1,6 +1,6 @@
 import { Account } from "../../domain/Account";
 import { InvalidInputError } from "../../errors/InvalidInputError";
-import { AccountRepository } from "../../infrastructure/AccountRespository";
+import { AccountRepository } from "../../infrastructure/AccountRepository";
 import { TransactionRepository } from "../../infrastructure/TransactionRepository";
 import { ConsoleIO } from "../../presentation/ConsoleIO";
 import {

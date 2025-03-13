@@ -5,7 +5,7 @@ import * as readline from "node:readline";
 import { CommandExecuter } from "./presentation/CommandExecuter";
 import { TransactionRepository } from "./infrastructure/TransactionRepository";
 import { InterestRuleRepository } from "./infrastructure/InterestRuleRepository";
-import { AccountRepository } from "./infrastructure/AccountRespository";
+import { AccountRepository } from "./infrastructure/AccountRepository";
 import { Command } from "./application/commands/Command";
 import InputTransactionCommand from "./application/commands/InputTransactionCommand";
 import DefineInterestRuleCommand from "./application/commands/DefineInterestRuleCommand";
