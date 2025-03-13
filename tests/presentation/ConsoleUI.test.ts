@@ -2,39 +2,46 @@ import { CommandExecuter } from "../../src/presentation/CommandExecuter";
 import { ConsoleIO } from "../../src/presentation/ConsoleIO";
 import { ConsoleUI } from "../../src/presentation/ConsoleUI";
 
-const mockConsoleIO = {
-  display: jest.fn(),
-  promptInput: jest.fn(),
-  close: jest.fn(),
-  error: jest.fn(),
-};
-
-const mockCommandExecuter = {
-  execute: jest.fn(),
-};
-
 describe("ConsoleUI", () => {
   let consoleUI: ConsoleUI;
+  let mockCommandExecuter: CommandExecuter;
+  let mockConsoleIO: ConsoleIO;
   beforeEach(() => {
-    consoleUI = new ConsoleUI(
-      mockConsoleIO as unknown as ConsoleIO,
-      mockCommandExecuter as unknown as CommandExecuter
-    );
+    mockCommandExecuter = {
+      execute: jest.fn(),
+    } as unknown as CommandExecuter;
+    mockConsoleIO = {
+      display: jest.fn(),
+      promptInput: jest.fn(),
+      close: jest.fn(),
+      error: jest.fn(),
+    } as unknown as ConsoleIO;
+    consoleUI = new ConsoleUI(mockConsoleIO, mockCommandExecuter);
   });
 
-  it("should show initial welcome message", () => {
-    consoleUI.start();
+  it("should show initial welcome message", async () => {
+    mockConsoleIO = {
+      display: jest.fn(),
+      promptInput: jest.fn().mockResolvedValueOnce("q"),
+      close: jest.fn(),
+      error: jest.fn(),
+    } as unknown as ConsoleIO;
+    consoleUI = new ConsoleUI(mockConsoleIO, mockCommandExecuter);
+
+    await consoleUI.start();
     expect(mockConsoleIO.display).toHaveBeenCalledWith(
       expect.stringContaining("Welcome to AwesomeGIC Bank!")
     );
   });
 
-  it("should show menu with given menu title", () => {
+  it("should show menu with given menu title", async () => {
     const testMenuTitle = "Test Menu Title";
-    consoleUI.showMenu(testMenuTitle);
+    const mockCallback = jest.fn();
+    await consoleUI.showMenu(testMenuTitle, mockCallback);
     expect(mockConsoleIO.display).toHaveBeenCalledWith(
       expect.stringContaining(testMenuTitle)
     );
+    expect(mockCallback).toHaveBeenCalled();
   });
 
   it("should show quit message when input q", () => {
@@ -46,9 +53,19 @@ describe("ConsoleUI", () => {
   });
 
   it("should show error message when input invalid menu", () => {
-    mockCommandExecuter.execute.mockImplementation(() => {
-      throw new Error("Invalid option!");
-    });
+    mockConsoleIO = {
+      display: jest.fn(),
+      promptInput: jest.fn().mockResolvedValueOnce("q"),
+      close: jest.fn(),
+      error: jest.fn(),
+    } as unknown as ConsoleIO;
+    mockCommandExecuter = {
+      execute: jest.fn().mockImplementation(() => {
+        throw new Error("mock error");
+      }),
+    } as unknown as CommandExecuter;
+    consoleUI = new ConsoleUI(mockConsoleIO, mockCommandExecuter);
+
     consoleUI.handleMenuSelection("invalid");
     expect(mockConsoleIO.error).toHaveBeenCalled();
   });

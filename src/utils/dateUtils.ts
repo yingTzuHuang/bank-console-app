@@ -33,7 +33,9 @@ const isFutureDate = (date: Date): boolean => {
 
 export const validateDate = (date: Date) => {
   if (isFutureDate(date)) {
-    throw new InvalidInputError("Invalid date format!");
+    throw new InvalidInputError(
+      "Invalid date! Date should not be future date."
+    );
   }
 };
 

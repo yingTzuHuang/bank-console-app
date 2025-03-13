@@ -7,8 +7,8 @@ export abstract class Command {
 
   abstract handleInput(input: string): void;
 
-  execute() {
+  async promptInput(): Promise<string> {
     this.consoleIO.display(this.promptMessage);
-    this.consoleIO.promptInput((userInput) => this.handleInput(userInput));
+    return this.consoleIO.promptInput();
   }
 }

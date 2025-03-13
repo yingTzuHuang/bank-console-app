@@ -11,7 +11,7 @@ export default class DefineInterestRuleCommand extends Command {
     super(consoleIO);
   }
 
-  handleInput() {
+  handleInput(input: string) {
     throw new Error("Not implemented");
   }
 }

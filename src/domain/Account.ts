@@ -8,20 +8,24 @@ export class Account {
     this._transactions = [];
   }
 
-  withdraw(date: Date, amount: number) {
+  withdraw(date: Date, amount: number): Transaction {
     if (!this.canWithdraw(amount)) {
       throw new InsufficientBalanceError("Insufficient Balance!");
     }
     this._balance -= amount;
-    this._transactions.push(new Transaction(date, "W", amount));
+    const newTransaction = new Transaction(date, "W", amount);
+    this._transactions.push(newTransaction);
+    return newTransaction;
   }
 
-  deposit(date: Date, amount: number) {
+  deposit(date: Date, amount: number): Transaction {
     this._balance += amount;
-    this._transactions.push(new Transaction(date, "D", amount));
+    const newTransaction = new Transaction(date, "D", amount);
+    this._transactions.push(newTransaction);
+    return newTransaction;
   }
 
-  canWithdraw(amount: number) {
+  private canWithdraw(amount: number) {
     return this._balance >= amount;
   }
 
@@ -31,5 +35,9 @@ export class Account {
 
   get transactions() {
     return this._transactions;
+  }
+
+  get balance() {
+    return this._balance;
   }
 }

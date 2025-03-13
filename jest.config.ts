@@ -11,6 +11,8 @@ const config: JestConfigWithTsJest = {
     "^.+\\.m?[tj]sx?$": ["ts-jest", { useESM: true }],
   },
   clearMocks: true,
+  restoreMocks: true,
+  resetMocks: true,
 };
 
 export default config;

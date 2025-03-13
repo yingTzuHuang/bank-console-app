@@ -1,8 +1,6 @@
 import * as readline from "node:readline";
 
 export class ConsoleIO {
-  //   private rl: readline.Interface;
-
   constructor(private rl: readline.Interface) {}
 
   display(message: string) {
@@ -13,8 +11,12 @@ export class ConsoleIO {
     console.error(`ERROR: ${message}\n`);
   }
 
-  promptInput(handleInput: (input: string) => void) {
-    this.rl.question("> ", (input) => handleInput(input));
+  promptInput(): Promise<string> {
+    return new Promise((resolve) => {
+      this.rl.question("> ", (answer) => {
+        resolve(answer);
+      });
+    });
   }
 
   close() {

@@ -29,26 +29,36 @@ export default class InputTransactionCommand extends Command {
 
     const transactionDetails = trimmedInput.split(" ");
     if (transactionDetails.length !== 4) {
-      throw new InvalidInputError("Invalid input format!");
+      throw new InvalidInputError(
+        "Invalid input format! Please enter transaction details in <Date> <Account> <Type> <Amount> format."
+      );
     }
 
     const [dateString, accountId, type, amountString] = transactionDetails;
-    const date = convertYYYYMMddToDate(dateString);
-    const trimmedUpperType = type.trim().toUpperCase();
-    const amount = this.convertAmountStringToNumber(amountString);
 
+    const date = convertYYYYMMddToDate(dateString);
     validateDate(date);
+
+    const trimmedUpperType = type.trim().toUpperCase();
     this.validateType(trimmedUpperType);
+
+    const amount = this.convertAmountStringToNumber(amountString);
     this.validateAmount(amount);
 
-    const account =
-      this.accountRepository.getById(accountId) ?? new Account(accountId, 0);
+    let account = this.accountRepository.getById(accountId);
 
-    if (trimmedUpperType === "W") {
-      account.withdraw(date!, Number(amount));
-    } else {
-      account.deposit(date!, Number(amount));
+    if (!account) {
+      account = new Account(accountId, 0);
+      this.accountRepository.add(account);
     }
+
+    let transaction = null;
+    if (trimmedUpperType === "W") {
+      transaction = account.withdraw(date!, Number(amount));
+    } else {
+      transaction = account.deposit(date!, Number(amount));
+    }
+    this.transactionRepository.add(transaction);
 
     this.showAccountTransactions(account);
   }
@@ -76,7 +86,7 @@ export default class InputTransactionCommand extends Command {
         "Invalid amount! Amount must be greater than 0."
       );
     }
-    if (amountNumber % 0.01 !== 0) {
+    if ((amountNumber * 100) % 1 !== 0) {
       throw new InvalidInputError(
         "Invalid amount! Amount must be up to 2 decimal places."
       );
@@ -84,7 +94,7 @@ export default class InputTransactionCommand extends Command {
   }
 
   showAccountTransactions(account: Account) {
-    this.consoleIO.display(`Account:${account.id}`);
+    this.consoleIO.display(`Account: ${account.id}`);
     this.consoleIO.display("| Date | Txn Id | Type | Amount |");
     for (const t of account.transactions) {
       const formattedDate = convertDateToYYYYMMdd(t.date);

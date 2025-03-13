@@ -17,7 +17,8 @@ describe("ConsoleIO", () => {
   });
 
   afterEach(() => {
-    consoleErrorSpy?.mockRestore();
+    jest.clearAllMocks();
+    jest.restoreAllMocks();
   });
 
   it("should display message", () => {
@@ -26,13 +27,15 @@ describe("ConsoleIO", () => {
     expect(mockReadline.write).toHaveBeenCalledWith(testMessage + "\n");
   });
 
-  it("should prompt for input", () => {
-    const mockCallback = jest.fn();
-    consoleIO.promptInput(mockCallback);
-    expect(mockReadline.question).toHaveBeenCalledWith(
-      "> ",
-      expect.any(Function)
+  it("should prompt for input", async () => {
+    const mockAnswer = "test";
+    mockReadline.question.mockImplementation(
+      (_, callback: (answer: string) => void) => {
+        callback(mockAnswer);
+      }
     );
+    const result = await consoleIO.promptInput();
+    expect(result).toBe(mockAnswer);
   });
 
   it("should close readline", () => {
