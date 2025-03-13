@@ -9,6 +9,6 @@ export class AccountRepository {
     this.accounts.push(account);
   }
   getById(id: string) {
-    return this.accounts;
+    return this.accounts.find((acc) => acc.id === id);
   }
 }

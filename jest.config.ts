@@ -7,11 +7,12 @@ const config: JestConfigWithTsJest = {
   coverageDirectory: "../coverage",
   collectCoverageFrom: ["src/**/*.ts", "!src/index.ts"],
   testMatch: ["**/tests/**/*.test.ts"],
-  globals: {
-    "ts-jest": {
-      useESM: true,
-    },
+  transform: {
+    "^.+\\.m?[tj]sx?$": ["ts-jest", { useESM: true }],
   },
+  clearMocks: true,
+  restoreMocks: true,
+  resetMocks: true,
 };
 
 export default config;

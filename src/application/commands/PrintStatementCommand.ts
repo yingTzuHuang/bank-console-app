@@ -3,14 +3,17 @@ import { TransactionRepository } from "../../infrastructure/TransactionRepositor
 import { ConsoleIO } from "../../presentation/ConsoleIO";
 import { Command } from "./Command";
 
-export class PrintStatementCommand implements Command {
+export default class PrintStatementCommand extends Command {
+  protected readonly promptMessage: string = "";
   constructor(
+    consoleIO: ConsoleIO,
     private transactionRepository: TransactionRepository,
-    private interestRuleRepository: InterestRuleRepository,
-    private consoleIO: ConsoleIO
-  ) {}
+    private interestRuleRepository: InterestRuleRepository
+  ) {
+    super(consoleIO);
+  }
 
-  execute() {
+  handleInput(input: string) {
     throw new Error("Not implemented");
   }
 }

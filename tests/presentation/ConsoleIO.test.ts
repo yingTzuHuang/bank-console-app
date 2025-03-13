@@ -9,9 +9,16 @@ const mockReadline = {
 
 describe("ConsoleIO", () => {
   let consoleIO: ConsoleIO;
+  let consoleErrorSpy: jest.SpyInstance;
+
   beforeEach(() => {
-    jest.clearAllMocks();
     consoleIO = new ConsoleIO(mockReadline as unknown as readline.Interface);
+    consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+    jest.restoreAllMocks();
   });
 
   it("should display message", () => {
@@ -20,17 +27,27 @@ describe("ConsoleIO", () => {
     expect(mockReadline.write).toHaveBeenCalledWith(testMessage + "\n");
   });
 
-  it("should prompt for input", () => {
-    const mockCallback = jest.fn();
-    consoleIO.promptInput(mockCallback);
-    expect(mockReadline.question).toHaveBeenCalledWith(
-      ">",
-      expect.any(Function)
+  it("should prompt for input", async () => {
+    const mockAnswer = "test";
+    mockReadline.question.mockImplementation(
+      (_, callback: (answer: string) => void) => {
+        callback(mockAnswer);
+      }
     );
+    const result = await consoleIO.promptInput();
+    expect(result).toBe(mockAnswer);
   });
 
   it("should close readline", () => {
     consoleIO.close();
     expect(mockReadline.close).toHaveBeenCalled();
+  });
+
+  it("should show error message with ERROR: as prefix message to indicate error", () => {
+    const mockErrorMesssage = "Error message";
+    consoleIO.error(mockErrorMesssage);
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      `ERROR: ${mockErrorMesssage}\n`
+    );
   });
 });
