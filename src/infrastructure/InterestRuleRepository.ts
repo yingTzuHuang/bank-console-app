@@ -1,15 +1,29 @@
 import { InterestRule } from "../domain/InterestRule";
+import { areSameDate } from "../utils/dateUtils";
 
 export class InterestRuleRepository {
-  private interestRules: InterestRule[];
+  private _interestRules: InterestRule[];
   constructor() {
-    this.interestRules = [];
+    this._interestRules = [];
   }
   add(interestRule: InterestRule) {
-    this.interestRules.push(interestRule);
+    const existingRule = this._interestRules.find((rule) =>
+      areSameDate(rule.date, interestRule.date)
+    );
+    if (existingRule) {
+      existingRule.id = interestRule.id;
+      existingRule.rate = interestRule.rate;
+    } else {
+      this._interestRules.push(interestRule);
+    }
   }
-  getInterestRateByDate(date: Date) {
-    // TODO: Implement this method
-    throw new Error("Method not implemented.");
+
+  get interestRules() {
+    return this._interestRules;
   }
+
+  // getInterestRateByDate(date: Date) {
+  //   // TODO: Implement this method
+  //   throw new Error("Method not implemented.");
+  // }
 }

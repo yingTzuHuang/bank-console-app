@@ -39,6 +39,7 @@ export default class InputTransactionCommand extends Command {
     const date = convertYYYYMMddToDate(dateString);
     validateDate(date);
 
+    // trimming type may not be required as its from split space
     const trimmedUpperType = type.trim().toUpperCase();
     this.validateType(trimmedUpperType);
 
@@ -71,6 +72,7 @@ export default class InputTransactionCommand extends Command {
     }
   }
 
+  // TODO: Move conversion of input to Transaction object part
   private convertAmountStringToNumber(amountString: string) {
     const trimmedAmount = amountString.trim();
     const amount = Number(trimmedAmount);
