@@ -12,8 +12,8 @@ export class Transaction {
     this._id = "";
   }
 
-  set id(id: string) {
-    this._id = id;
+  set id(newId: string) {
+    this._id = newId;
   }
 
   get id() {

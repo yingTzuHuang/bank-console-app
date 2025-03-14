@@ -1,4 +1,5 @@
 import {
+  areSameDate,
   convertDateToYYYYMMdd,
   convertYYYYMMddToDate,
   validateDate,
@@ -37,5 +38,11 @@ describe("dateUtils", () => {
     const actual = convertDateToYYYYMMdd(new Date(2025, 0, 31));
 
     expect(actual).toEqual(expected);
+  });
+
+  //areSameDate
+  it("check whether two dates are on the same date", () => {
+    const actual = areSameDate(new Date(), new Date());
+    expect(actual).toBe(true);
   });
 });

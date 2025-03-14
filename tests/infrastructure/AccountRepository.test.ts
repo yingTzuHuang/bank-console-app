@@ -1,7 +1,7 @@
 import { Account } from "../../src/domain/Account";
 import { AccountRepository } from "../../src/infrastructure/AccountRepository";
 
-describe("TransactionRespository", () => {
+describe("AccountRepository", () => {
   let accountRepo: AccountRepository;
   beforeEach(() => {
     accountRepo = new AccountRepository();

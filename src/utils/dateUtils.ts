@@ -47,10 +47,10 @@ export const convertDateToYYYYMMdd = (date: Date): string => {
   return `${year}${month}${day}`;
 };
 
-// export const areSameDate = (date1: Date, date2: Date) =>
-//   date1.getFullYear() === date2.getFullYear() &&
-//   date1.getMonth() === date2.getMonth() &&
-//   date1.getDate() === date2.getDate();
+export const areSameDate = (date1: Date, date2: Date) =>
+  date1.getFullYear() === date2.getFullYear() &&
+  date1.getMonth() === date2.getMonth() &&
+  date1.getDate() === date2.getDate();
 
 // export const getLastDayOfMonth = (date: Date) =>
 //   new Date(
