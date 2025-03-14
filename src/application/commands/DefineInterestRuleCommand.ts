@@ -63,7 +63,7 @@ export default class DefineInterestRuleCommand extends Command {
       );
     }
     // Assumption rate only keep up to 2 decimal places to be consistent as display
-    return rate;
+    return Number(rate.toFixed(2));
   }
 
   // TODO: Make printing result consistent by put at one place

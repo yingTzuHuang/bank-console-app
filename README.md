@@ -18,6 +18,13 @@
 
 2. Balance should be updated when new interest rule is added or when existing interest rule is updated
 
+# Assumptions
+
+1. Input Transactions: Date should not be future date
+2. Define Interest Rate Rule:
+   (a) Date should not be future date
+   (b) When user input more than 2 decimal places for Interest Rate, only keep up to 2 decimal places to be consistent as display
+
 # Prerequisites
 
 Install `Node.js`, `npm`, and `git`
