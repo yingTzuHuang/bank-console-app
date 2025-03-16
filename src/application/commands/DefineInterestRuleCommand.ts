@@ -67,7 +67,7 @@ export default class DefineInterestRuleCommand extends Command {
   }
 
   // TODO: Make printing result consistent by put at one place
-  showAllInterestRules() {
+  private showAllInterestRules() {
     this.consoleIO.display(`-----------------------------------`);
     this.consoleIO.display("| Date | Rule Id | Rate(%) |");
     for (const rule of this.interestRuleRepository.interestRules) {

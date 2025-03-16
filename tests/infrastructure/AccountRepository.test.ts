@@ -7,12 +7,20 @@ describe("AccountRepository", () => {
     accountRepo = new AccountRepository();
   });
 
-  it("generates id when new transaction is added", () => {
+  it("add new account", () => {
     expect(accountRepo.accounts.length).toBe(0);
 
-    const newAccount = new Account("Acc01", 0);
+    const newAccount = new Account("Acc01");
     accountRepo.add(newAccount);
 
     expect(accountRepo.accounts[0]).toBe(newAccount);
+  });
+
+  it("return account by Id", () => {
+    const newAccount = new Account("Acc01");
+    accountRepo.add(newAccount);
+
+    expect(accountRepo.getById("Acc01")).toEqual(newAccount);
+    expect(accountRepo.getById("Acc02")).toBeUndefined();
   });
 });

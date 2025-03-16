@@ -59,7 +59,6 @@ describe("InputTransactionsCommand", () => {
 
   it("show all interest rules", () => {
     defineRuleCommand.handleInput("20250303 Rule001 1");
-    defineRuleCommand.showAllInterestRules();
 
     expect(mockConsoleIO.display).toHaveBeenCalledWith(
       expect.stringContaining("| Date | Rule Id | Rate(%) |")

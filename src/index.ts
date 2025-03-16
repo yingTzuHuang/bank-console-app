@@ -56,7 +56,7 @@ const registerCommands = (
       "P",
       new PrintStatementCommand(
         consoleIO,
-        transactionRepository,
+        accountRepository,
         interestRuleRepository
       ),
     ],

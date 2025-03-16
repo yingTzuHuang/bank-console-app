@@ -11,14 +11,14 @@ describe("TransactionRespository", () => {
   it("generates id when new transaction is added", () => {
     expect(transactionRepo.transactions.length).toBe(0);
 
-    const account = new Account("Acc01", 0);
+    const account = new Account("Acc01");
     let generateTransactionIdSpy = jest.spyOn(
       transactionRepo,
       "generateTransactionId"
     );
     const date = new Date(2025, 1, 1);
 
-    transactionRepo.add(new Transaction(account, date, "D", 100));
+    transactionRepo.add(new Transaction(account, date, "D", 100, 100));
 
     expect(generateTransactionIdSpy).toHaveBeenCalledTimes(1);
     expect(transactionRepo.transactions.length).toBe(1);

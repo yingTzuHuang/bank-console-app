@@ -6,7 +6,8 @@ export class Transaction {
     private _account: Account,
     private _date: Date,
     private _type: "D" | "W" | "I",
-    private _amount: number
+    private _amount: number,
+    private _balance: number
   ) {
     // Initialize with empty string, set when it's added to storage (to prevent generating id for invalid inputs)
     this._id = "";
@@ -34,5 +35,9 @@ export class Transaction {
 
   get account() {
     return this._account;
+  }
+
+  get balance() {
+    return this._balance;
   }
 }
