@@ -62,7 +62,6 @@ export default class PrintStatementCommand extends Command {
         (t) => areSameDate(monthLastDate, t.date) && t.type === "I"
       )
     ) {
-      console.log("In interest");
       const monthInterestRules =
         this.interestRuleRepository.getInterestRateRulesByDateRange(
           monthStartDate,
