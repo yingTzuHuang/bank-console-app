@@ -5,7 +5,12 @@ export abstract class Command {
 
   constructor(protected consoleIO: ConsoleIO) {}
 
-  abstract handleInput(input: string): void;
+  handleInput(input: string): void {
+    const trimmedInput = input.trim();
+    if (!trimmedInput) {
+      return;
+    }
+  }
 
   async promptInput(): Promise<string> {
     this.consoleIO.display(this.promptMessage);

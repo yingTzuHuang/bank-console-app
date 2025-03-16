@@ -31,6 +31,24 @@ const isFutureDate = (date: Date): boolean => {
   return date > currentDate;
 };
 
+export const convertYYYYMMToLastDateOfMonth = (dateString: string): Date => {
+  const invalidYYYYMMddFormatMessage =
+    "Invalid month format! Month should be YYYYMM format.";
+  const regex = /^\d{4}(0[1-9]|1[0-2])$/;
+  if (!regex.test(dateString)) {
+    throw new InvalidInputError(invalidYYYYMMddFormatMessage);
+  }
+
+  // Extract year, month, and day from the string
+  const year = parseInt(dateString.substring(0, 4), 10);
+  const month = parseInt(dateString.substring(4, 6), 10) - 1;
+
+  // Create a Date object and verify its components
+  const date = new Date(year, month + 1, 0);
+
+  return date;
+};
+
 export const validateDate = (date: Date) => {
   if (isFutureDate(date)) {
     throw new InvalidInputError(
@@ -52,9 +70,20 @@ export const areSameDate = (date1: Date, date2: Date) =>
   date1.getMonth() === date2.getMonth() &&
   date1.getDate() === date2.getDate();
 
-// export const getLastDayOfMonth = (date: Date) =>
-//   new Date(
-//     date.getFullYear(),
-//     date.getMonth() + 1, // +1 because months are 0-indexed
-//     0
-//   );
+export const getStartDateOfMonth = (date: Date) =>
+  new Date(date.getFullYear(), date.getMonth(), 1);
+
+export const getDateDiffInDays = (
+  startDate: Date,
+  endDate: Date,
+  isIncludeEndDate: boolean = true
+) => {
+  // Update hours to igonre the time in dates
+  startDate.setHours(0, 0, 0);
+  endDate.setHours(0, 0, 0);
+
+  return (
+    (endDate.getTime() - startDate.getTime()) / (24 * 3600 * 1000) +
+    Number(isIncludeEndDate)
+  );
+};

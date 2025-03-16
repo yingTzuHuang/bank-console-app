@@ -1,5 +1,6 @@
 import InputTransactionCommand from "../../src/application/commands/InputTransactionCommand";
 import { Account } from "../../src/domain/Account";
+import { Transaction } from "../../src/domain/Transaction";
 import { AccountRepository } from "../../src/infrastructure/AccountRepository";
 import { TransactionRepository } from "../../src/infrastructure/TransactionRepository";
 import { ConsoleIO } from "../../src/presentation/ConsoleIO";
@@ -131,21 +132,34 @@ describe("InputTransactionsCommand", () => {
   });
 
   it("show account's all transactions", () => {
+    const mockTransactions = [
+      {
+        date: new Date(2025, 2, 2),
+        id: "20250302-01",
+        type: "D",
+        amount: 20,
+      },
+    ];
+    const mockNewTransaction = new Transaction(
+      new Account("Acc001"),
+      new Date(2025, 2, 3),
+      "W",
+      1,
+      19
+    );
+    mockNewTransaction.id = "20250303-01";
     const mockAccount = {
       id: "Acc001",
-      balance: 100,
+      balance: 20,
       deposit: jest.fn(),
-      withdraw: jest.fn(),
-      transactions: [
-        {
-          date: new Date(2025, 2, 2),
-          id: "20250302-01",
-          type: "D",
-          amount: 20,
-        },
-      ],
+      transactions: mockTransactions,
+      withdraw: jest.fn().mockImplementationOnce(() => {
+        mockTransactions.push(mockNewTransaction);
+      }),
     } as unknown as Account;
-    inputTransactionsCommand.showAccountTransactions(mockAccount);
+
+    mockAccountRepoGetById.mockReturnValueOnce(mockAccount);
+    inputTransactionsCommand.handleInput("20250303 Acc001 W 1");
 
     expect(mockConsoleIO.display).toHaveBeenCalledWith(
       expect.stringContaining("Account: Acc001")
@@ -155,6 +169,9 @@ describe("InputTransactionsCommand", () => {
     );
     expect(mockConsoleIO.display).toHaveBeenCalledWith(
       expect.stringContaining("| 20250302 | 20250302-01 | D | 20.00 |")
+    );
+    expect(mockConsoleIO.display).toHaveBeenCalledWith(
+      expect.stringContaining("| 20250303 | 20250303-01 | W | 1.00 |")
     );
   });
 });

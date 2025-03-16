@@ -49,7 +49,7 @@ export default class InputTransactionCommand extends Command {
     let account = this.accountRepository.getById(accountId);
 
     if (!account) {
-      account = new Account(accountId, 0);
+      account = new Account(accountId);
       this.accountRepository.add(account);
     }
 
@@ -95,7 +95,7 @@ export default class InputTransactionCommand extends Command {
     }
   }
 
-  showAccountTransactions(account: Account) {
+  private showAccountTransactions(account: Account) {
     this.consoleIO.display(`-----------------------------------`);
     this.consoleIO.display(`Account: ${account.id}`);
     this.consoleIO.display("| Date | Txn Id | Type | Amount |");

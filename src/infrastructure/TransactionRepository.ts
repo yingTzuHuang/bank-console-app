@@ -11,7 +11,10 @@ export class TransactionRepository {
   }
 
   add(transaction: Transaction) {
-    transaction.id = this.generateTransactionId(transaction.date);
+    transaction.id =
+      transaction.type !== "I"
+        ? this.generateTransactionId(transaction.date)
+        : "";
     this._transactions.push(transaction);
   }
 
@@ -32,10 +35,6 @@ export class TransactionRepository {
     return `${convertDateToYYYYMMdd(date)}-${newRunningNumber
       .toString()
       .padStart(2, "0")}`;
-  }
-
-  getTransactionsByAccountId(accountId: string) {
-    return this._transactions.filter((t) => t.account.id === accountId);
   }
 
   get transactions() {
